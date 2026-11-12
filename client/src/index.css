@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Folio Light Palette — Warm Paper & Forest */
+  --color-paper: #F8F6F1;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #F0EEE7;
+  --color-ink: #202A25;
+  --color-ink-muted: #56635B;
+  --color-forest: #2D5B4B;
+  --color-forest-hover: #24493C;
+  --color-border: #D8DDD5;
+  --color-focus: #2458A6;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Literata", Georgia, serif;
+
+  /* Radii from Folio Design Spec */
+  --radius-control: 10px;
+  --radius-card: 16px;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}

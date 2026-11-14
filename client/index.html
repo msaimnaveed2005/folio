@@ -19,3 +19,15 @@
 </body>
 
 </html>
+
+
+<!-- 
+The browser makes a standard HTTP request to Vite for /. Vite sends back index.html.
+
+Notice what's inside <body>:
+
+html
+<div id="root"></div>
+<script type="module" src="/src/main.jsx"></script>
+That empty <div id="root"></div> is the only piece of HTML initially on the page.
+The browser encounters <script type="module" src="/src/main.jsx">, which tells it: "Download and execute JavaScript starting from main.jsx." -->

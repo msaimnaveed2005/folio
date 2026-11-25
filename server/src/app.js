@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import bookRouter from "./routes/book.routes.js";
+import progressRouter from "./routes/progress.routes.js";
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.get("/health", (req, res) => {
 // 5. Mount API Routes
 app.use("/api/auth", authRouter);
 app.use("/api/books", bookRouter);
+app.use("/api/progress", progressRouter);
 
 export default app;

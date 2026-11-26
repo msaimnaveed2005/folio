@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
+import ReaderPage from "./pages/ReaderPage";
 import RegisterPage from "./pages/RegisterPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 
@@ -32,6 +33,14 @@ export default function App() {
         element={
           <RouteGuard requireAuth redirectTo="/login">
             <DashboardPage />
+          </RouteGuard>
+        }
+      />
+      <Route
+        path="/read/:bookId"
+        element={
+          <RouteGuard requireAuth redirectTo="/login">
+            <ReaderPage />
           </RouteGuard>
         }
       />

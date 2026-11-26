@@ -1,5 +1,62 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantRegular-gwO55.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantItalic-Wpve4.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantMedium-ovVOA.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantMediumItalic-aY4Oo.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantSemibold-4nPM6.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantSemiboldItalic-E4AYz.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantBold-0vwBo.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/CormorantBoldItalic-OGRP8.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
   /* Folio Light Palette — Warm Paper & Forest */
   --color-paper: #F8F6F1;
@@ -15,7 +72,11 @@
   /* Typography */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-serif: "Literata", Georgia, serif;
-
+  --font-cormorant: "Cormorant", Georgia, serif;
+  --font-lora: "Lora", Georgia, serif;
+  --font-merriweather: "Merriweather", Georgia, serif;
+  --font-crimson: "Crimson Pro", Georgia, serif;
+  --font-atkinson: "Atkinson Hyperlegible", system-ui, sans-serif;
   /* Radii from Folio Design Spec */
   --radius-control: 10px;
   --radius-card: 16px;
@@ -29,4 +90,53 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+}
+
+
+/* Book typography for parsed EPUB chapter HTML */
+.reader-prose {
+  line-height: 1.75;
+}
+.reader-prose * {
+  color: inherit !important;
+}
+.reader-prose p {
+  margin-bottom: 1.2em;
+}
+
+.reader-prose h1,
+.reader-prose h2,
+.reader-prose h3 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.6em;
+  margin-bottom: 0.7em;
+}
+
+.reader-prose h1 {
+  font-size: 1.65em;
+}
+
+.reader-prose h2 {
+  font-size: 1.35em;
+}
+
+.reader-prose h3 {
+  font-size: 1.15em;
+}
+
+.reader-prose blockquote {
+  margin: 1.25em 0;
+  padding-left: 1em;
+  border-left: 3px solid currentColor;
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.reader-prose img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto;
+  display: block;
+  border-radius: 8px;
 }

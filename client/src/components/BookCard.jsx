@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BookCard({ book, onDelete }) {
+    const navigate = useNavigate();
     const [deleting, setDeleting] = useState(false);
+    const isReady = book.processingStatus === "ready";
+
+    function handleOpen() {
+        if (isReady) {
+            navigate(`/read/${book._id}`);
+        }
+    }
 
     async function handleDelete(e) {
         e.stopPropagation();
@@ -17,7 +26,11 @@ export default function BookCard({ book, onDelete }) {
     }
 
     return (
-        <div className="group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-sm transition hover:shadow-md">
+        <div
+            onClick={handleOpen}
+            className={`group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-sm transition hover:shadow-md ${isReady ? "cursor-pointer" : ""
+                }`}
+        >
             {/* 1. Book Cover or Fallback */}
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-surface-raised border-b border-border flex items-center justify-center">
                 {book.coverImage ? (
@@ -80,15 +93,22 @@ export default function BookCard({ book, onDelete }) {
                         {(book.fileSize / (1024 * 1024)).toFixed(1)} MB
                     </span>
 
-                    <button
-                        type="button"
-                        disabled={deleting}
-                        onClick={handleDelete}
-                        aria-label="Delete book"
-                        className="text-xs font-medium text-red-600 hover:text-red-700 hover:underline disabled:opacity-50"
-                    >
-                        {deleting ? "Deleting..." : "Delete"}
-                    </button>
+                    <div className="flex items-center gap-3">
+                        {isReady && (
+                            <span className="text-xs font-medium text-forest group-hover:underline">
+                                Read →
+                            </span>
+                        )}
+                        <button
+                            type="button"
+                            disabled={deleting}
+                            onClick={handleDelete}
+                            aria-label="Delete book"
+                            className="text-xs font-medium text-red-600 hover:text-red-700 hover:underline disabled:opacity-50"
+                        >
+                            {deleting ? "Deleting..." : "Delete"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,8 +1,12 @@
 const THEME_OPTIONS = [
     { id: "light", label: "Paper", swatch: "bg-[#F8F6F1] text-[#202A25]" },
+    { id: "solarized", label: "Solarized", swatch: "bg-[#FDF6E3] text-[#3B4D54]" },
     { id: "sepia", label: "Sepia", swatch: "bg-[#F1E7D3] text-[#3D2E1E]" },
     { id: "sage", label: "Sage", swatch: "bg-[#E8EFEA] text-[#1D2C24]" },
+    { id: "vintage", label: "Vintage", swatch: "bg-[#EAE4D2] text-[#2B2E33]" },
     { id: "dusk", label: "Dusk", swatch: "bg-[#222831] text-[#D8DEE9]" },
+    { id: "gruvbox", label: "Gruvbox", swatch: "bg-[#282828] text-[#EBDBB2]" },
+    { id: "rosepine", label: "Rosé Pine", swatch: "bg-[#191724] text-[#E0DEF4]" },
     { id: "dark", label: "Dark", swatch: "bg-[#121B18] text-[#DCE7E1]" },
 ];
 
@@ -21,6 +25,14 @@ const LAYOUT_OPTIONS = [
     { id: "spread", label: "2-Page Book" },
 ];
 
+const BOOK_STYLE_OPTIONS = [
+    { id: "framed", label: "Clean Framed Book (Original)", swatch: "bg-[#F8F6F1] border-[#141518]", spanFull: true },
+    { id: "classic", label: "Classic Novel", swatch: "bg-[#5A3825] border-[#D4AF37]/60" },
+    { id: "fantasy", label: "Fantasy Tome", swatch: "bg-[#1D2448] border-[#D4AF37]" },
+    { id: "journal", label: "Life Improvement", swatch: "bg-[#476150] border-[#B65E3D]" },
+    { id: "minimal", label: "Modern Minimal", swatch: "bg-[#333840] border-[#94A3B8]" },
+];
+
 export default function ReaderAppearanceMenu({
     isOpen,
     onClose,
@@ -36,7 +48,7 @@ export default function ReaderAppearanceMenu({
             <div className="fixed inset-0 z-40" onClick={onClose} aria-hidden="true" />
 
             <div
-                className={`absolute right-4 top-16 z-50 w-80 max-w-[calc(100vw-2rem)] rounded-card border p-4 shadow-xl space-y-4 ${themeStyles.surface} ${themeStyles.border}`}
+                className={`absolute right-4 top-16 z-50 w-80 max-w-[calc(100vw-2rem)] max-h-[75vh] overflow-y-auto rounded-card border p-4 shadow-xl space-y-4 ${themeStyles.surface} ${themeStyles.border}`}
             >
                 {/* 1. Theme Selector */}
                 <div>
@@ -136,6 +148,40 @@ export default function ReaderAppearanceMenu({
                         })}
                     </div>
                 </div>
+
+                {/* 5. Real Open-Book World (shown in 2-Page Book Mode) */}
+                {(prefs.layout || "scroll") === "spread" && (
+                    <div>
+                        <p className={`mb-2 text-xs font-semibold uppercase tracking-wider ${themeStyles.muted}`}>
+                            Book Scene
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {BOOK_STYLE_OPTIONS.map((style) => {
+                                const active = (prefs.bookStyle || "classic") === style.id;
+                                return (
+                                    <button
+                                        key={style.id}
+                                        type="button"
+                                        onClick={() => onUpdatePrefs({ bookStyle: style.id })}
+                                        className={`min-h-11 rounded-control border px-2.5 text-xs font-medium transition flex items-center gap-2 text-left ${
+                                            style.spanFull ? "col-span-2" : ""
+                                        } ${
+                                            active
+                                                ? themeStyles.activeChip
+                                                : `${themeStyles.border} ${themeStyles.hoverItem}`
+                                        }`}
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                            className={`h-3.5 w-3.5 shrink-0 rounded-sm border ${style.swatch}`}
+                                        />
+                                        <span className="truncate">{style.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

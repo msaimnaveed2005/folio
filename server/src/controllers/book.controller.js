@@ -1,7 +1,7 @@
 import fs from "fs";
 import bookModel from "../models/book.model.js";
 import chapterModel from "../models/chapter.model.js";
-import { parseEpubFile } from "../services/epub.service.js";
+import { extractEpubImage, parseEpubFile } from "../services/epub.service.js";
 
 /**
  * Upload and parse a new EPUB book.
@@ -190,5 +190,39 @@ export async function deleteBook(req, res) {
     } catch (error) {
         console.error("Delete book error:", error);
         return res.status(500).json({ message: "Server error deleting book" });
+    }
+}
+
+
+/**
+ * Stream an embedded image from inside the book's EPUB archive to its owner.
+ */
+export async function getBookAsset(req, res) {
+    try {
+        const assetPath = req.query.path;
+        if (!assetPath) {
+            return res.status(400).json({ message: "Asset path query parameter is required" });
+        }
+
+        const book = await bookModel.findOne({
+            _id: req.params.id,
+            userId: req.user.id,
+        });
+
+        if (!book || !book.filePath || !fs.existsSync(book.filePath)) {
+            return res.status(404).json({ message: "Book archive not found" });
+        }
+
+        const asset = await extractEpubImage(book.filePath, assetPath);
+        if (!asset) {
+            return res.status(404).json({ message: "Asset not found in book" });
+        }
+
+        res.setHeader("Content-Type", asset.mimeType);
+        res.setHeader("Cache-Control", "private, max-age=86400");
+        return res.send(asset.buffer);
+    } catch (error) {
+        console.error("Get book asset error:", error);
+        return res.status(500).json({ message: "Server error loading book asset" });
     }
 }

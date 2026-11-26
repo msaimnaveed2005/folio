@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { authAssetMiddleware, authMiddleware } from "../middlewares/auth.middleware.js";
 import { uploadBook } from "../middlewares/upload.middleware.js";
 import * as bookController from "../controllers/book.controller.js";
 
 const bookRouter = Router();
 
-// Protect all book endpoints: user must be authenticated
+// Stream embedded EPUB images (accepts Bearer token or active HttpOnly session cookie for <img> tags)
+bookRouter.get("/:id/asset", authAssetMiddleware, bookController.getBookAsset);
+
+// Protect all remaining book endpoints: Bearer access token required
 bookRouter.use(authMiddleware);
 
 // 1. Upload EPUB book (handled by Multer, then parsed by controller)

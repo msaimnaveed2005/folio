@@ -116,3 +116,23 @@ export async function parseEpubFile(filePath) {
         chapters,
     };
 }
+
+
+/**
+ * Extracts an embedded image from inside an EPUB archive after verifying it exists in the manifest.
+ */
+export async function extractEpubImage(filePath, assetHref) {
+    const epub = await EPub.createAsync(filePath);
+    const normalized = String(assetHref || "").replace(/^\/+/, "");
+    const images = epub.listImage() || [];
+    const match = images.find((img) => img.href === normalized);
+    if (!match) return null;
+
+    const [buffer, mimeType] = await epub.getImageAsync(match.id);
+    if (!buffer) return null;
+
+    return {
+        buffer,
+        mimeType: mimeType || match.mediaType || "image/jpeg",
+    };
+}

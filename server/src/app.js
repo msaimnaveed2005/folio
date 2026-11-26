@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import bookRouter from "./routes/book.routes.js";
 import progressRouter from "./routes/progress.routes.js";
+import musicRouter from "./routes/music.routes.js";
 
 const app = express();
 
@@ -36,5 +37,6 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/books", bookRouter);
 app.use("/api/progress", progressRouter);
+app.use("/api/music", musicRouter);
 
 export default app;
